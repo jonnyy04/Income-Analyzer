@@ -98,4 +98,67 @@
 		color: var(--color-blue);
 		border-bottom-color: var(--color-blue);
 	}
+
+	.form-select {
+		padding: 6px 10px;
+		font-size: 13px;
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: 6px;
+		color: var(--color-text);
+		cursor: pointer;
+		font-family: "DM Sans", sans-serif;
+		transition: all 0.2s;
+	}
+
+	.form-select:hover {
+		border-color: var(--color-blue);
+	}
+
+	.form-select:focus {
+		outline: none;
+		border-color: var(--color-blue);
+		box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+	}
+
+	.badge-green {
+		display: inline-block;
+		padding: 4px 8px;
+		background: rgba(16, 185, 129, 0.1);
+		color: var(--color-green);
+		border-radius: 4px;
+		font-size: 12px;
+		font-weight: 600;
+		font-family: "DM Mono", monospace;
+	}
+
+	.badge-neutral {
+		display: inline-block;
+		padding: 4px 8px;
+		color: var(--color-text3);
+		font-size: 12px;
+		font-weight: 600;
+	}
+
+	.btn-danger {
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
+		padding: 6px 12px;
+		background: transparent;
+		color: var(--color-text2);
+		border: 1px solid var(--color-border);
+		border-radius: 6px;
+		font-size: 12px;
+		font-weight: 500;
+		cursor: pointer;
+		transition: all 0.2s;
+		font-family: "DM Sans", sans-serif;
+	}
+
+	.btn-danger:hover {
+		color: #ef4444;
+		border-color: #ef4444;
+		background: rgba(239, 68, 68, 0.05);
+	}
 }
