@@ -9,15 +9,20 @@ import { useEntries } from "./hooks/useEntries";
 function App() {
 	const { entries, addEntry, deleteEntry } = useEntries();
 	const [page, setPage] = useState("dashboard");
+	const [dark, setDark] = useState(false);
 
 	function handleAddEntry(balance) {
 		const newEntry = createEntry(entries, parseFloat(balance));
 		addEntry(newEntry);
 	}
 
+	function toggleDark() {
+		setDark(!dark);
+	}
+
 	return (
 		<div style={{ display: "flex", minHeight: "100vh", background: "var(--color-bg)" }}>
-			<Sidebar page={page} setPage={setPage} />
+			<Sidebar page={page} setPage={setPage} dark={dark} toggleDark={toggleDark} entryCount={entries.length} />
 
 			<main style={{ flex: 1, padding: "2rem", maxWidth: 900, overflowX: "hidden" }}>
 				{page === "dashboard" && <DashboardPage entries={entries} onAdd={handleAddEntry} />}

@@ -1,6 +1,6 @@
 import Icon from "./Icon";
 
-export default function Sidebar({ page, setPage }) {
+export default function Sidebar({ page, setPage, dark, toggleDark, entryCount }) {
 	return (
 		<aside
 			style={{
@@ -26,13 +26,16 @@ export default function Sidebar({ page, setPage }) {
 							width: 34,
 							height: 34,
 							borderRadius: 9,
-							background: "var(--color-blue)",
+							background: "var(--color-accent)",
 							display: "flex",
 							alignItems: "center",
 							justifyContent: "center",
 						}}
 					>
-						<Icon name="chart" size={17} strokeWidth={2.5} />
+						<svg width={17} height={17} viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+							<polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+							<polyline points="16 7 22 7 22 13" />
+						</svg>
 					</div>
 					<div>
 						<div style={{ fontWeight: 700, fontSize: 15, letterSpacing: "-0.01em", color: "var(--color-text)" }}>SalaryTrack</div>
@@ -65,52 +68,24 @@ export default function Sidebar({ page, setPage }) {
 				Navigation
 			</div>
 
-			<button
-				style={{
-					display: "flex",
-					alignItems: "center",
-					gap: 8,
-					padding: "10px 16px",
-					borderRadius: 8,
-					cursor: "pointer",
-					fontSize: 14,
-					fontWeight: 500,
-					transition: "all 0.2s",
-					border: "none",
-					background: page === "dashboard" ? "var(--color-blue)" : "transparent",
-					color: page === "dashboard" ? "white" : "var(--color-text2)",
-					fontFamily: "DM Sans, sans-serif",
-				}}
-				onClick={() => setPage("dashboard")}
-			>
+			<button className={`nav-item ${page === "dashboard" ? "active" : ""}`} onClick={() => setPage("dashboard")}>
 				<Icon name="dashboard" size={16} />
 				Dashboard
 			</button>
-			<button
-				style={{
-					display: "flex",
-					alignItems: "center",
-					gap: 8,
-					padding: "10px 16px",
-					borderRadius: 8,
-					cursor: "pointer",
-					fontSize: 14,
-					fontWeight: 500,
-					transition: "all 0.2s",
-					border: "none",
-					background: page === "statistics" ? "var(--color-blue)" : "transparent",
-					color: page === "statistics" ? "white" : "var(--color-text2)",
-					fontFamily: "DM Sans, sans-serif",
-				}}
-				onClick={() => setPage("statistics")}
-			>
+			<button className={`nav-item ${page === "statistics" ? "active" : ""}`} onClick={() => setPage("statistics")}>
 				<Icon name="stats" size={16} />
 				Statistics
 			</button>
 
 			{/* Footer */}
 			<div style={{ marginTop: "auto", paddingTop: "1rem", borderTop: "1px solid var(--color-border)" }}>
-				<div style={{ fontSize: 10, color: "var(--color-text3)", textAlign: "center" }}>{new Date().getFullYear()}</div>
+				<button className="btn-ghost" style={{ width: "100%", display: "flex", alignItems: "center", gap: 8 }} onClick={toggleDark}>
+					<Icon name={dark ? "sun" : "moon"} size={15} />
+					{dark ? "Light Mode" : "Dark Mode"}
+				</button>
+				<div style={{ fontSize: 10, color: "var(--color-text3)", textAlign: "center", marginTop: 10 }}>
+					{entryCount} entries · {new Date().getFullYear()}
+				</div>
 			</div>
 		</aside>
 	);
