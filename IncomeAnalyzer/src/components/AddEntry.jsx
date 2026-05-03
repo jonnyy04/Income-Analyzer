@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { createEntry, fmtDec } from "../utils/helpers";
+import { createEntry, fmt } from "../utils/helpers";
+import Icon from "./Icon";
 
-export default function AddEntry({ entries = [], onAdd }) {
+export default function AddEntry({ entries, onAdd }) {
 	const [balance, setBalance] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [msg, setMsg] = useState(null);
@@ -17,7 +18,7 @@ export default function AddEntry({ entries = [], onAdd }) {
 			const entry = createEntry(entries, val);
 			onAdd(entry);
 			setBalance("");
-			const text = entry.dailyProfit > 0 ? `+$${fmtDec(entry.dailyProfit)} added to this month's salary!` : "Entry saved — no increase detected.";
+			const text = entry.dailyProfit > 0 ? `+$${fmt(entry.dailyProfit)} added to this month's salary!` : "Entry saved — no increase detected.";
 			setMsg({ type: entry.dailyProfit > 0 ? "success" : "neutral", text });
 			setLoading(false);
 			setTimeout(() => setMsg(null), 3500);
@@ -31,7 +32,7 @@ export default function AddEntry({ entries = [], onAdd }) {
 	return (
 		<div
 			style={{
-				background: "linear-gradient(135deg, var(--color-blue) 0%, #1d4ed8 100%)",
+				background: "linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-dark) 100%)",
 				borderRadius: 12,
 				padding: "1.5rem",
 				color: "#fff",
@@ -39,36 +40,13 @@ export default function AddEntry({ entries = [], onAdd }) {
 			}}
 		>
 			<div style={{ marginBottom: "1rem" }}>
-				<div
-					style={{
-						fontSize: 11,
-						fontWeight: 600,
-						letterSpacing: "0.08em",
-						textTransform: "uppercase",
-						opacity: 0.75,
-						marginBottom: 4,
-					}}
-				>
-					Daily Entry
-				</div>
+				<div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", opacity: 0.75, marginBottom: 4 }}>Daily Entry</div>
 				<div style={{ fontSize: 20, fontWeight: 700 }}>Enter Today's Balance</div>
 			</div>
 
 			<div style={{ display: "flex", gap: 10, alignItems: "center" }}>
 				<div style={{ position: "relative", flex: 1 }}>
-					<span
-						style={{
-							position: "absolute",
-							left: 12,
-							top: "50%",
-							transform: "translateY(-50%)",
-							fontWeight: 700,
-							fontSize: 16,
-							opacity: 0.8,
-						}}
-					>
-						$
-					</span>
+					<span style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", fontWeight: 700, fontSize: 16, opacity: 0.8 }}>$</span>
 					<input
 						type="number"
 						value={balance}
@@ -96,22 +74,23 @@ export default function AddEntry({ entries = [], onAdd }) {
 					style={{
 						padding: "10px 22px",
 						background: "#fff",
-						color: "var(--color-blue)",
+						color: "var(--color-accent)",
 						border: "none",
 						borderRadius: 8,
 						fontWeight: 700,
 						fontSize: 14,
-						cursor: loading ? "not-allowed" : "pointer",
+						cursor: "pointer",
 						whiteSpace: "nowrap",
 						display: "flex",
 						alignItems: "center",
 						gap: 6,
 						boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+						transition: "transform 0.15s",
 						fontFamily: "DM Sans, sans-serif",
-						opacity: loading ? 0.6 : 1,
 					}}
 				>
-					➕ {loading ? "Adding..." : "Add"}
+					<Icon name="plus" size={16} />
+					Add
 				</button>
 			</div>
 

@@ -14,9 +14,7 @@ export default function DashboardPage({ entries = [], onAdd }) {
 
 	const lastBalance = useMemo(() => {
 		if (!entries.length) return 0;
-		const last = [...entries].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))[0];
-		const balance = typeof last?.balance === "number" && !isNaN(last.balance) ? last.balance : 0;
-		return balance;
+		return [...entries].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))[0].balance;
 	}, [entries]);
 
 	const workedDays = useMemo(() => thisMonth.filter((e) => e.dailyProfit > 0).length, [thisMonth]);

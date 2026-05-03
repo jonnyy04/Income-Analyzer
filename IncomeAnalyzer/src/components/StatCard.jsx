@@ -1,30 +1,20 @@
 import Icon from "./Icon";
 
 const colorMap = {
-	blue: { bg: "#dbeafe", text: "#2563eb" },
-	green: { bg: "#d1fae5", text: "#10b981" },
-	amber: { bg: "#fef3c7", text: "#f59e0b" },
-	purple: { bg: "#ede9fe", text: "#8b5cf6" },
-	red: { bg: "#fee2e2", text: "#ef4444" },
+	blue: { bg: "var(--color-accent-light)", text: "var(--color-accent)" },
+	green: { bg: "var(--color-green-light)", text: "var(--color-green)" },
+	amber: { bg: "var(--color-amber-light)", text: "var(--color-amber)" },
+	purple: { bg: "var(--color-purple-light)", text: "var(--color-purple)" },
+	red: { bg: "var(--color-red-light)", text: "var(--color-red)" },
 };
 
 export default function StatCard({ label, value, sub, color = "blue", icon }) {
 	const c = colorMap[color] || colorMap.blue;
 
 	return (
-		<div className="card" style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-			<div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-				<span
-					style={{
-						fontSize: "11px",
-						letterSpacing: "0.06em",
-						color: "var(--color-text2)",
-						textTransform: "uppercase",
-						fontWeight: 600,
-					}}
-				>
-					{label}
-				</span>
+		<div className="card flex flex-col gap-2">
+			<div className="flex items-center justify-between">
+				<span style={{ fontSize: "11px", letterSpacing: "0.06em", color: "var(--color-text2)", textTransform: "uppercase", fontWeight: 600 }}>{label}</span>
 				<div
 					style={{
 						width: 32,
@@ -40,17 +30,7 @@ export default function StatCard({ label, value, sub, color = "blue", icon }) {
 					<Icon name={icon} size={15} />
 				</div>
 			</div>
-			<div
-				style={{
-					fontSize: 28,
-					fontWeight: 700,
-					letterSpacing: "-0.02em",
-					color: "var(--color-text)",
-					lineHeight: 1.1,
-				}}
-			>
-				{value}
-			</div>
+			<div style={{ fontSize: 28, fontWeight: 700, letterSpacing: "-0.02em", color: "var(--color-text)", lineHeight: 1.1 }}>{value}</div>
 			{sub && (
 				<div className="mono" style={{ fontSize: 12, color: "var(--color-text3)" }}>
 					{sub}
