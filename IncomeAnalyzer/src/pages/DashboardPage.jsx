@@ -1,9 +1,11 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import AddEntry from "../components/AddEntry";
 import StatCard from "../components/StatCard";
 import { MONTHS, fmt } from "../utils/helpers";
+import { seedSampleData } from "../utils/sampleData";
 
 export default function DashboardPage({ entries, onAdd }) {
+	const [sampleMsg, setSampleMsg] = useState(null);
 	const now = new Date();
 	const curMonth = now.getMonth() + 1;
 	const curYear = now.getFullYear();
@@ -14,7 +16,8 @@ export default function DashboardPage({ entries, onAdd }) {
 
 	const lastBalance = useMemo(() => {
 		if (!entries.length) return 0;
-		return [...entries].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))[0].balance;
+		const sorted = [...entries].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+		return sorted[0]?.balance || 0;
 	}, [entries]);
 
 	const workedDays = useMemo(() => thisMonth.filter((e) => e.dailyProfit > 0).length, [thisMonth]);
@@ -22,13 +25,66 @@ export default function DashboardPage({ entries, onAdd }) {
 
 	const recentEntries = useMemo(() => [...entries].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)).slice(0, 5), [entries]);
 
+	const handleLoadSample = () => {
+		const result = seedSampleData();
+		setSampleMsg(result);
+		setTimeout(() => setSampleMsg(null), 4000);
+
+		// Reload page to show new data - wait longer to ensure localStorage is written
+		if (result.success) {
+			setTimeout(() => {
+				// Force refresh by adding timestamp to prevent caching
+				window.location.href = window.location.href.split("#")[0] + "?refresh=" + Date.now();
+			}, 2000);
+		}
+	};
+
 	return (
 		<div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
 			{/* Header */}
-			<div>
-				<div style={{ fontSize: 24, fontWeight: 700, letterSpacing: "-0.02em", marginBottom: 4, color: "var(--color-text)" }}>Dashboard</div>
-				<div style={{ fontSize: 13, color: "var(--color-text2)" }}>{now.toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</div>
+			<div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "1rem" }}>
+				<div>
+					<div style={{ fontSize: 24, fontWeight: 700, letterSpacing: "-0.02em", marginBottom: 4, color: "var(--color-text)" }}>Dashboard</div>
+					<div style={{ fontSize: 13, color: "var(--color-text2)" }}>{now.toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</div>
+				</div>
+				<button
+					onClick={handleLoadSample}
+					style={{
+						padding: "8px 14px",
+						background: "var(--color-accent)",
+						color: "white",
+						border: "none",
+						borderRadius: 8,
+						fontSize: 13,
+						fontWeight: 600,
+						cursor: "pointer",
+						whiteSpace: "nowrap",
+						transition: "all 0.2s",
+						boxShadow: "0 2px 8px rgba(37,99,235,0.2)",
+					}}
+					onMouseOver={(e) => (e.target.style.opacity = "0.85")}
+					onMouseOut={(e) => (e.target.style.opacity = "1")}
+				>
+					📊 Load Sample Data
+				</button>
 			</div>
+
+			{/* Sample data message */}
+			{sampleMsg && (
+				<div
+					style={{
+						padding: "12px 14px",
+						borderRadius: 8,
+						fontSize: 13,
+						fontWeight: 500,
+						background: sampleMsg.success ? "rgba(16,185,129,0.1)" : "rgba(239,68,68,0.1)",
+						border: `1px solid ${sampleMsg.success ? "rgba(16,185,129,0.3)" : "rgba(239,68,68,0.3)"}`,
+						color: sampleMsg.success ? "var(--color-green)" : "var(--color-red)",
+					}}
+				>
+					{sampleMsg.success ? "✓" : "✕"} {sampleMsg.message}
+				</div>
+			)}
 
 			{/* Add entry */}
 			<AddEntry entries={entries} onAdd={onAdd} />
