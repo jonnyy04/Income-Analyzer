@@ -8,6 +8,7 @@ import Icon from "../components/Icon";
 function TableTab({ entries, onDelete }) {
 	const [filterMonth, setFilterMonth] = useState("all");
 	const [filterYear, setFilterYear] = useState("all");
+	const [deleteConfirm, setDeleteConfirm] = useState(null);
 
 	const years = useMemo(() => [...new Set(entries.map((e) => e.year))].sort((a, b) => b - a), [entries]);
 
@@ -19,6 +20,17 @@ function TableTab({ entries, onDelete }) {
 	const filtered = useMemo(() => {
 		return [...entries].filter((e) => (filterYear === "all" || e.year === +filterYear) && (filterMonth === "all" || e.month === +filterMonth)).sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 	}, [entries, filterYear, filterMonth]);
+
+	const handleDeleteClick = (entryId, entryDate) => {
+		setDeleteConfirm({ id: entryId, date: entryDate });
+	};
+
+	const confirmDelete = () => {
+		if (deleteConfirm) {
+			onDelete(deleteConfirm.id);
+			setDeleteConfirm(null);
+		}
+	};
 
 	if (!entries.length) return <Empty />;
 
@@ -94,7 +106,7 @@ function TableTab({ entries, onDelete }) {
 									<td style={{ padding: "10px 16px", fontFamily: "DM Mono, monospace", fontWeight: 600, color: "var(--color-text)" }}>${fmt(e.balance)}</td>
 									<td style={{ padding: "10px 16px" }}>{e.dailyProfit > 0 ? <span className="badge-green">+${fmt(e.dailyProfit)}</span> : <span className="badge-neutral">—</span>}</td>
 									<td style={{ padding: "10px 16px" }}>
-										<button className="btn-danger" onClick={() => onDelete(e.id)}>
+										<button className="btn-danger" onClick={() => handleDeleteClick(e.id, e.date)}>
 											<Icon name="trash" size={13} /> Delete
 										</button>
 									</td>
@@ -102,6 +114,97 @@ function TableTab({ entries, onDelete }) {
 							))}
 						</tbody>
 					</table>
+				</div>
+			)}
+
+			{/* Confirmation Modal */}
+			{deleteConfirm && (
+				<div
+					style={{
+						position: "fixed",
+						top: 0,
+						left: 0,
+						right: 0,
+						bottom: 0,
+						background: "rgba(0, 0, 0, 0.5)",
+						display: "flex",
+						alignItems: "center",
+						justifyContent: "center",
+						zIndex: 1000,
+					}}
+					onClick={() => setDeleteConfirm(null)}
+				>
+					<div
+						style={{
+							background: "var(--color-surface)",
+							borderRadius: 12,
+							padding: "1.5rem",
+							border: "1px solid var(--color-border)",
+							boxShadow: "0 10px 40px rgba(0, 0, 0, 0.2)",
+							maxWidth: 320,
+						}}
+						onClick={(e) => e.stopPropagation()}
+					>
+						<div style={{ marginBottom: "1rem" }}>
+							<div style={{ fontSize: 18, fontWeight: 700, color: "var(--color-text)", marginBottom: 8 }}>Delete Entry?</div>
+							<div style={{ fontSize: 13, color: "var(--color-text2)", lineHeight: 1.5 }}>
+								Are you sure you want to delete the entry from <strong>{deleteConfirm.date}</strong>? This action cannot be undone.
+							</div>
+						</div>
+
+						<div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
+							<button
+								onClick={() => setDeleteConfirm(null)}
+								style={{
+									padding: "8px 16px",
+									background: "var(--color-surface2)",
+									color: "var(--color-text2)",
+									border: "1px solid var(--color-border)",
+									borderRadius: 8,
+									fontSize: 13,
+									fontWeight: 600,
+									cursor: "pointer",
+									transition: "all 0.2s",
+									fontFamily: "DM Sans, sans-serif",
+								}}
+								onMouseOver={(e) => {
+									e.target.style.background = "var(--color-border)";
+									e.target.style.color = "var(--color-text)";
+								}}
+								onMouseOut={(e) => {
+									e.target.style.background = "var(--color-surface2)";
+									e.target.style.color = "var(--color-text2)";
+								}}
+							>
+								Cancel
+							</button>
+							<button
+								onClick={confirmDelete}
+								style={{
+									padding: "8px 16px",
+									background: "var(--color-red-light)",
+									color: "var(--color-red)",
+									border: "none",
+									borderRadius: 8,
+									fontSize: 13,
+									fontWeight: 600,
+									cursor: "pointer",
+									transition: "all 0.2s",
+									fontFamily: "DM Sans, sans-serif",
+								}}
+								onMouseOver={(e) => {
+									e.target.style.opacity = "0.8";
+									e.target.style.transform = "scale(1.02)";
+								}}
+								onMouseOut={(e) => {
+									e.target.style.opacity = "1";
+									e.target.style.transform = "scale(1)";
+								}}
+							>
+								Delete
+							</button>
+						</div>
+					</div>
 				</div>
 			)}
 		</div>

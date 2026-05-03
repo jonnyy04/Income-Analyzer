@@ -47,7 +47,7 @@ export default function Sidebar({ page, setPage, dark, toggleDark, entryCount })
 								letterSpacing: "0.08em",
 							}}
 						>
-							v1.0
+						
 						</div>
 					</div>
 				</div>
