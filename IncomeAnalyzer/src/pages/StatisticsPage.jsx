@@ -1,58 +1,83 @@
+import { useState } from "react";
+
+// ─── TABLE TAB ──────────────────────────────────────────────────────────
+function TableTab({ entries, onDelete }) {
+	return <Placeholder name="Table with filters and data" />;
+}
+
+// ─── BAR CHART TAB ─────────────────────────────────────────────────────
+function BarChartTab({ entries }) {
+	return <Placeholder name="Monthly Salary Bar Chart" />;
+}
+
+// ─── LINE CHART TAB ────────────────────────────────────────────────────
+function LineChartTab({ entries }) {
+	return <Placeholder name="Cumulative Earnings Line Chart" />;
+}
+
+// ─── GENERAL STATS TAB ─────────────────────────────────────────────────
+function GeneralStatsTab({ entries }) {
+	return <Placeholder name="General Statistics & Distribution" />;
+}
+
+// ─── HELPERS ────────────────────────────────────────────────────────────
+function Empty() {
+	return (
+		<div style={{ textAlign: "center", padding: "4rem 2rem", color: "var(--color-text3)" }}>
+			<div style={{ fontSize: 40, marginBottom: "1rem" }}>📊</div>
+			<div style={{ fontWeight: 600, fontSize: 15, color: "var(--color-text2)" }}>No data yet</div>
+			<div style={{ fontSize: 13, marginTop: 6 }}>Add your first balance entry to see statistics.</div>
+		</div>
+	);
+}
+
+function Placeholder({ name }) {
+	return (
+		<div style={{ textAlign: "center", padding: "3rem 2rem", color: "var(--color-text3)" }}>
+			<div style={{ fontSize: 24, marginBottom: "1rem" }}>🛠️</div>
+			<div style={{ fontWeight: 600, fontSize: 14, color: "var(--color-text2)" }}>Coming Soon</div>
+			<div style={{ fontSize: 12, marginTop: 6 }}>{name}</div>
+		</div>
+	);
+}
+
+// ─── STATISTICS PAGE ────────────────────────────────────────────────────
+const TABS = ["Table", "Bar Chart", "Line Chart", "General Stats"];
+
 export default function StatisticsPage({ entries = [], onDelete }) {
+	const [active, setActive] = useState(0);
+
 	if (entries.length === 0) {
-		return (
-			<div style={{ textAlign: "center", padding: "2rem 0", color: "var(--color-text3)" }}>
-				<div style={{ fontSize: 28, marginBottom: "0.5rem" }}>📊</div>
-				<p>No data yet</p>
-			</div>
-		);
+		return <Empty />;
 	}
 
 	return (
-		<div>
-			<h2 style={{ color: "var(--color-text)", marginBottom: "1.5rem", fontSize: 24 }}>All Entries</h2>
-			{[...entries].reverse().map((entry) => (
-				<div
-					key={entry.id}
-					style={{
-						display: "flex",
-						justifyContent: "space-between",
-						alignItems: "center",
-						padding: "1rem",
-						background: "var(--color-surface)",
-						border: "1px solid var(--color-border)",
-						borderRadius: "12px",
-						marginBottom: "0.75rem",
-					}}
-				>
-					<div>
-						<p style={{ color: "var(--color-text)", fontWeight: 500 }}>{entry.date}</p>
-						<p style={{ color: "var(--color-text2)", fontSize: 12 }}>Balance: ${entry.balance.toFixed(2)}</p>
-					</div>
-					<div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-						<span
-							style={{
-								color: entry.dailyProfit > 0 ? "var(--color-green)" : "var(--color-text2)",
-								fontWeight: 600,
-							}}
-						>
-							{entry.dailyProfit > 0 ? "+" : ""}${entry.dailyProfit.toFixed(2)}
-						</span>
-						<button
-							onClick={() => onDelete(entry.id)}
-							style={{
-								border: "none",
-								background: "transparent",
-								color: "var(--color-text2)",
-								cursor: "pointer",
-								fontSize: 16,
-							}}
-						>
-							🗑️
+		<div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+			{/* Header */}
+			<div>
+				<div style={{ fontSize: 24, fontWeight: 700, letterSpacing: "-0.02em", marginBottom: 4, color: "var(--color-text)" }}>Statistics</div>
+				<div style={{ fontSize: 13, color: "var(--color-text2)" }}>Deep dive into your earnings data.</div>
+			</div>
+
+			{/* Tab Container */}
+			<div className="card" style={{ padding: 0, overflow: "hidden" }}>
+				{/* Tab Bar */}
+				<div style={{ display: "flex", borderBottom: "1px solid var(--color-border)", overflowX: "auto" }}>
+					{TABS.map((tab, i) => (
+						<button key={i} className={`tab-btn ${active === i ? "active" : ""}`} onClick={() => setActive(i)}>
+							{tab}
 						</button>
-					</div>
+					))}
 				</div>
-			))}
+
+				{/* Tab Content */}
+				<div style={{ padding: "1.5rem" }}>
+					{active === 0 && <TableTab entries={entries} onDelete={onDelete} />}
+					{active === 1 && <BarChartTab entries={entries} />}
+					{active === 2 && <LineChartTab entries={entries} />}
+					{active === 3 && <GeneralStatsTab entries={entries} />}
+				</div>
+			</div>
 		</div>
 	);
 }
