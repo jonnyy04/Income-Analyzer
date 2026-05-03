@@ -1,1 +1,78 @@
-@import "tailwindcss";
+@layer base {
+	:root {
+		--color-bg: #f0f7ff;
+		--color-surface: #ffffff;
+		--color-surface2: #e8f2ff;
+		--color-border: #c8dff5;
+		--color-text: #0f1c2e;
+		--color-text2: #4a6080;
+		--color-text3: #7a96b0;
+		--color-blue: #2563eb;
+		--color-green: #10b981;
+		--color-amber: #f59e0b;
+		--color-purple: #8b5cf6;
+	}
+
+	.dark {
+		--color-bg: #0d1117;
+		--color-surface: #161b22;
+		--color-surface2: #21262d;
+		--color-border: #30363d;
+		--color-text: #e6edf3;
+		--color-text2: #8b949e;
+		--color-text3: #484f58;
+		--color-blue: #3b82f6;
+		--color-green: #34d399;
+		--color-amber: #fbbf24;
+		--color-purple: #a78bfa;
+	}
+
+	* {
+		box-sizing: border-box;
+	}
+
+	body {
+		font-family: "DM Sans", sans-serif;
+		background-color: var(--color-bg);
+		color: var(--color-text);
+		transition:
+			background-color 0.3s,
+			color 0.3s;
+		min-height: 100vh;
+	}
+
+	::-webkit-scrollbar {
+		width: 6px;
+		height: 6px;
+	}
+	::-webkit-scrollbar-track {
+		background: transparent;
+	}
+	::-webkit-scrollbar-thumb {
+		background: var(--color-border);
+		border-radius: 3px;
+	}
+}
+
+@layer components {
+	.card {
+		background-color: var(--color-surface);
+		border-radius: 12px;
+		border: 1px solid var(--color-border);
+		box-shadow:
+			0 1px 3px rgba(37, 99, 235, 0.08),
+			0 4px 16px rgba(37, 99, 235, 0.06);
+		padding: 1.25rem;
+		transition: all 0.2s;
+	}
+
+	.dark .card {
+		box-shadow:
+			0 1px 3px rgba(0, 0, 0, 0.3),
+			0 4px 16px rgba(0, 0, 0, 0.2);
+	}
+
+	.mono {
+		font-family: "DM Mono", monospace;
+	}
+}
