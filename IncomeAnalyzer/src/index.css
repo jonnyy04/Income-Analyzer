@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @layer base {
 	:root {
 		--color-bg: #f0f7ff;
@@ -7,17 +11,17 @@
 		--color-text: #0f1c2e;
 		--color-text2: #4a6080;
 		--color-text3: #7a96b0;
-		--color-blue: #2563eb;
 		--color-accent: #2563eb;
-		--color-accent-dark: #1d4ed8;
 		--color-accent-light: #dbeafe;
+		--color-accent-dark: #1d4ed8;
 		--color-green: #10b981;
 		--color-green-light: #d1fae5;
+		--color-red: #ef4444;
+		--color-red-light: #fee2e2;
 		--color-amber: #f59e0b;
 		--color-amber-light: #fef3c7;
 		--color-purple: #8b5cf6;
 		--color-purple-light: #ede9fe;
-		--color-red-light: #fee2e2;
 	}
 
 	.dark {
@@ -28,17 +32,17 @@
 		--color-text: #e6edf3;
 		--color-text2: #8b949e;
 		--color-text3: #484f58;
-		--color-blue: #3b82f6;
 		--color-accent: #3b82f6;
-		--color-accent-dark: #1e40af;
-		--color-accent-light: #1e3a8a;
+		--color-accent-light: #1e3a5f;
+		--color-accent-dark: #60a5fa;
 		--color-green: #34d399;
 		--color-green-light: #064e3b;
+		--color-red: #f87171;
+		--color-red-light: #7f1d1d;
 		--color-amber: #fbbf24;
-		--color-amber-light: #451a03;
+		--color-amber-light: #78350f;
 		--color-purple: #a78bfa;
 		--color-purple-light: #4c1d95;
-		--color-red-light: #7f1d1d;
 	}
 
 	* {
@@ -86,94 +90,57 @@
 			0 4px 16px rgba(0, 0, 0, 0.2);
 	}
 
-	.mono {
-		font-family: "DM Mono", monospace;
+	.btn-primary {
+		background-color: var(--color-accent);
+		color: #fff;
+		border: none;
+		border-radius: 8px;
+		padding: 10px 20px;
+		font-weight: 600;
+		font-size: 14px;
+		cursor: pointer;
+		transition: all 0.2s;
+		font-family: "DM Sans", sans-serif;
+	}
+	.btn-primary:hover {
+		background-color: var(--color-accent-dark);
+		transform: translateY(-1px);
 	}
 
-	.tab-btn {
-		padding: 12px 16px;
+	.btn-ghost {
+		background: transparent;
+		border: 1px solid var(--color-border);
+		border-radius: 8px;
+		padding: 8px 16px;
+		color: var(--color-text2);
 		font-size: 13px;
 		font-weight: 500;
-		border: none;
-		background: transparent;
-		color: var(--color-text2);
 		cursor: pointer;
-		border-bottom: 2px solid transparent;
 		transition: all 0.2s;
-		white-space: nowrap;
 		font-family: "DM Sans", sans-serif;
 	}
-
-	.tab-btn:hover {
+	.btn-ghost:hover {
+		background-color: var(--color-surface2);
 		color: var(--color-text);
-	}
-
-	.tab-btn.active {
-		color: var(--color-blue);
-		border-bottom-color: var(--color-blue);
-	}
-
-	.form-select {
-		padding: 6px 10px;
-		font-size: 13px;
-		background: var(--color-surface);
-		border: 1px solid var(--color-border);
-		border-radius: 6px;
-		color: var(--color-text);
-		cursor: pointer;
-		font-family: "DM Sans", sans-serif;
-		transition: all 0.2s;
-	}
-
-	.form-select:hover {
-		border-color: var(--color-blue);
-	}
-
-	.form-select:focus {
-		outline: none;
-		border-color: var(--color-blue);
-		box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-	}
-
-	.badge-green {
-		display: inline-block;
-		padding: 4px 8px;
-		background: rgba(16, 185, 129, 0.1);
-		color: var(--color-green);
-		border-radius: 4px;
-		font-size: 12px;
-		font-weight: 600;
-		font-family: "DM Mono", monospace;
-	}
-
-	.badge-neutral {
-		display: inline-block;
-		padding: 4px 8px;
-		color: var(--color-text3);
-		font-size: 12px;
-		font-weight: 600;
 	}
 
 	.btn-danger {
-		display: inline-flex;
-		align-items: center;
-		gap: 4px;
-		padding: 6px 12px;
-		background: transparent;
-		color: var(--color-text2);
-		border: 1px solid var(--color-border);
+		background-color: var(--color-red-light);
+		color: var(--color-red);
+		border: none;
 		border-radius: 6px;
+		padding: 4px 10px;
 		font-size: 12px;
 		font-weight: 500;
 		cursor: pointer;
 		transition: all 0.2s;
+		display: flex;
+		align-items: center;
+		gap: 4px;
 		font-family: "DM Sans", sans-serif;
 	}
-
 	.btn-danger:hover {
-		color: #ef4444;
-		border-color: #ef4444;
-		background: rgba(239, 68, 68, 0.05);
+		opacity: 0.8;
 	}
 
 	.nav-item {
@@ -189,37 +156,97 @@
 		border: none;
 		background: transparent;
 		color: var(--color-text2);
+		width: 100%;
+		text-align: left;
 		font-family: "DM Sans", sans-serif;
 	}
-
 	.nav-item:hover {
-		background: var(--color-surface2);
+		background-color: var(--color-surface2);
 		color: var(--color-text);
 	}
-
 	.nav-item.active {
-		background: var(--color-accent);
-		color: white;
+		background-color: var(--color-accent-light);
+		color: var(--color-accent);
+		font-weight: 600;
 	}
 
-	.btn-ghost {
-		display: flex;
-		align-items: center;
-		gap: 8px;
-		padding: 10px 12px;
-		border-radius: 6px;
+	.tab-btn {
+		padding: 12px 20px;
+		background: transparent;
+		border: none;
+		border-bottom: 2px solid transparent;
 		cursor: pointer;
 		font-size: 13px;
 		font-weight: 500;
-		border: none;
-		background: transparent;
 		color: var(--color-text2);
-		font-family: "DM Sans", sans-serif;
 		transition: all 0.2s;
+		white-space: nowrap;
+		outline: none;
+		font-family: "DM Sans", sans-serif;
+	}
+	.tab-btn:hover {
+		color: var(--color-text);
+	}
+	.tab-btn.active {
+		color: var(--color-accent);
+		border-bottom-color: var(--color-accent);
+		font-weight: 600;
 	}
 
-	.btn-ghost:hover {
-		background: var(--color-surface2);
+	.badge-green {
+		background-color: var(--color-green-light);
+		color: var(--color-green);
+		padding: 2px 10px;
+		border-radius: 20px;
+		font-size: 12px;
+		font-family: "DM Mono", monospace;
+		font-weight: 600;
+	}
+
+	.badge-neutral {
+		background-color: var(--color-surface2);
+		color: var(--color-text3);
+		padding: 2px 10px;
+		border-radius: 20px;
+		font-size: 12px;
+	}
+
+	.form-input {
+		width: 100%;
+		padding: 10px 12px;
+		border-radius: 8px;
+		border: 1px solid var(--color-border);
+		background-color: var(--color-surface);
 		color: var(--color-text);
+		font-size: 14px;
+		outline: none;
+		transition: border-color 0.2s;
+		font-family: "DM Sans", sans-serif;
+	}
+	.form-input:focus {
+		border-color: var(--color-accent);
+	}
+
+	.form-select {
+		padding: 6px 12px;
+		border-radius: 8px;
+		border: 1px solid var(--color-border);
+		background-color: var(--color-surface);
+		color: var(--color-text);
+		font-size: 13px;
+		outline: none;
+		cursor: pointer;
+		font-family: "DM Sans", sans-serif;
+	}
+
+	.mono {
+		font-family: "DM Mono", monospace;
+	}
+
+	.table-row-even {
+		background-color: var(--color-surface);
+	}
+	.table-row-odd {
+		background-color: var(--color-surface2);
 	}
 }

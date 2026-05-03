@@ -124,7 +124,7 @@ function BarChartTab({ entries }) {
 					<Tooltip content={<ChartTooltip />} />
 					<Bar dataKey="salary" name="Salary" radius={[6, 6, 0, 0]}>
 						{data.map((_, i) => (
-							<Cell key={i} fill={i === data.length - 1 ? "var(--color-blue)" : "var(--color-surface2)"} />
+							<Cell key={i} fill={i === data.length - 1 ? "var(--color-accent)" : "var(--color-border)"} />
 						))}
 					</Bar>
 				</BarChart>
@@ -155,7 +155,7 @@ function LineChartTab({ entries }) {
 					<XAxis dataKey="label" tick={{ fill: "var(--color-text2)", fontSize: 11 }} axisLine={false} tickLine={false} angle={-30} textAnchor="end" dy={10} />
 					<YAxis tick={{ fill: "var(--color-text2)", fontSize: 11 }} axisLine={false} tickLine={false} tickFormatter={(v) => `$${fmt(v)}`} />
 					<Tooltip content={<ChartTooltip />} />
-					<Line type="monotone" dataKey="cumulative" name="Total Earned" stroke="var(--color-blue)" strokeWidth={2.5} dot={{ fill: "var(--color-blue)", r: 4 }} activeDot={{ r: 6 }} />
+					<Line type="monotone" dataKey="cumulative" name="Total Earned" stroke="var(--color-accent)" strokeWidth={2.5} dot={{ fill: "var(--color-accent)", r: 4 }} activeDot={{ r: 6 }} />
 					<Line type="monotone" dataKey="salary" name="Monthly" stroke="var(--color-green)" strokeWidth={2} strokeDasharray="4 2" dot={false} />
 				</LineChart>
 			</ResponsiveContainer>
@@ -163,7 +163,7 @@ function LineChartTab({ entries }) {
 			{/* Legend */}
 			<div style={{ display: "flex", gap: 20, justifyContent: "center", marginTop: 12 }}>
 				{[
-					{ label: "Total Earned", color: "var(--color-blue)", dash: false },
+					{ label: "Total Earned", color: "var(--color-accent)", dash: false },
 					{ label: "Monthly", color: "var(--color-green)", dash: true },
 				].map((l) => (
 					<div key={l.label} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "var(--color-text2)" }}>
@@ -191,7 +191,7 @@ function GeneralStatsTab({ entries }) {
 
 	const dist = [
 		{ label: "Under $10k", count: monthly.filter((m) => m.salary < 10000).length, color: "var(--color-text3)" },
-		{ label: "$10k – $15k", count: monthly.filter((m) => m.salary >= 10000 && m.salary < 15000).length, color: "var(--color-blue)" },
+		{ label: "$10k – $15k", count: monthly.filter((m) => m.salary >= 10000 && m.salary < 15000).length, color: "var(--color-accent)" },
 		{ label: "$15k – $20k", count: monthly.filter((m) => m.salary >= 15000 && m.salary < 20000).length, color: "var(--color-green)" },
 		{ label: "Over $20k", count: monthly.filter((m) => m.salary >= 20000).length, color: "var(--color-amber)" },
 	];
@@ -203,7 +203,7 @@ function GeneralStatsTab({ entries }) {
 			{/* Summary numbers */}
 			<div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: "1rem" }}>
 				{[
-					{ label: "Total Earned", value: `$${fmt(totalEarned)}`, color: "var(--color-blue)" },
+					{ label: "Total Earned", value: `$${fmt(totalEarned)}`, color: "var(--color-accent)" },
 					{ label: "Monthly Avg", value: `$${fmt(monthlyAvg)}`, color: "var(--color-green)" },
 					{ label: "Daily Avg", value: `$${fmtDec(dailyAvg)}`, color: "var(--color-purple)" },
 					{ label: "Total Days", value: totalWorked, color: "var(--color-amber)" },
@@ -238,7 +238,7 @@ function GeneralStatsTab({ entries }) {
 								<div style={{ fontWeight: 600, fontSize: 14, color: "var(--color-text)" }}>{m.label}</div>
 								<div style={{ fontSize: 12, color: "var(--color-text3)" }}>{m.days} working days</div>
 							</div>
-							<div className="mono" style={{ fontWeight: 700, fontSize: 14, color: "var(--color-blue)" }}>
+							<div className="mono" style={{ fontWeight: 700, fontSize: 14, color: "var(--color-accent)" }}>
 								${fmt(m.salary)}
 							</div>
 						</div>
@@ -293,33 +293,27 @@ function Empty() {
 // ─── STATISTICS PAGE ────────────────────────────────────────────────────
 const TABS = ["Table", "Bar Chart", "Line Chart", "General Stats"];
 
-export default function StatisticsPage({ entries = [], onDelete }) {
+export default function StatisticsPage({ entries, onDelete }) {
 	const [active, setActive] = useState(0);
-
-	if (entries.length === 0) {
-		return <Empty />;
-	}
 
 	return (
 		<div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-			{/* Header */}
 			<div>
 				<div style={{ fontSize: 24, fontWeight: 700, letterSpacing: "-0.02em", marginBottom: 4, color: "var(--color-text)" }}>Statistics</div>
 				<div style={{ fontSize: 13, color: "var(--color-text2)" }}>Deep dive into your earnings data.</div>
 			</div>
 
-			{/* Tab Container */}
 			<div className="card" style={{ padding: 0, overflow: "hidden" }}>
-				{/* Tab Bar */}
+				{/* Tab bar */}
 				<div style={{ display: "flex", borderBottom: "1px solid var(--color-border)", overflowX: "auto" }}>
-					{TABS.map((tab, i) => (
+					{TABS.map((t, i) => (
 						<button key={i} className={`tab-btn ${active === i ? "active" : ""}`} onClick={() => setActive(i)}>
-							{tab}
+							{t}
 						</button>
 					))}
 				</div>
 
-				{/* Tab Content */}
+				{/* Tab content */}
 				<div style={{ padding: "1.5rem" }}>
 					{active === 0 && <TableTab entries={entries} onDelete={onDelete} />}
 					{active === 1 && <BarChartTab entries={entries} />}

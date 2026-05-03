@@ -1,9 +1,9 @@
 import { useMemo } from "react";
 import AddEntry from "../components/AddEntry";
 import StatCard from "../components/StatCard";
-import { MONTHS, fmt, fmtDec } from "../utils/helpers";
+import { MONTHS, fmt } from "../utils/helpers";
 
-export default function DashboardPage({ entries = [], onAdd }) {
+export default function DashboardPage({ entries, onAdd }) {
 	const now = new Date();
 	const curMonth = now.getMonth() + 1;
 	const curYear = now.getFullYear();
@@ -67,7 +67,7 @@ export default function DashboardPage({ entries = [], onAdd }) {
 								</div>
 								{e.dailyProfit > 0 ? (
 									<span className="mono" style={{ fontWeight: 700, fontSize: 13, color: "var(--color-green)" }}>
-										+${fmtDec(e.dailyProfit)}
+										+${fmt(e.dailyProfit)}
 									</span>
 								) : (
 									<span style={{ fontSize: 12, color: "var(--color-text3)" }}>No change</span>
