@@ -10,7 +10,7 @@ function App() {
 	}
 
 	return (
-		<main>
+		<main style={{ maxWidth: "70%", margin: "0 auto", padding: "2rem 0" }}>
 			<DashboardPage entries={entries} onAdd={handleAddEntry} />
 		</main>
 	);
