@@ -1,4 +1,33 @@
-export default function AddEntry() {
+import { useState } from "react";
+import { createEntry, fmtDec } from "../utils/helpers";
+
+export default function AddEntry({ entries = [], onAdd }) {
+	const [balance, setBalance] = useState("");
+	const [loading, setLoading] = useState(false);
+	const [msg, setMsg] = useState(null);
+
+	const handle = () => {
+		const val = parseFloat(balance);
+		if (isNaN(val) || val < 0) {
+			setMsg({ type: "error", text: "Please enter a valid balance." });
+			return;
+		}
+		setLoading(true);
+		setTimeout(() => {
+			const entry = createEntry(entries, val);
+			onAdd(entry);
+			setBalance("");
+			const text = entry.dailyProfit > 0 ? `+$${fmtDec(entry.dailyProfit)} added to this month's salary!` : "Entry saved — no increase detected.";
+			setMsg({ type: entry.dailyProfit > 0 ? "success" : "neutral", text });
+			setLoading(false);
+			setTimeout(() => setMsg(null), 3500);
+		}, 300);
+	};
+
+	const handleKey = (e) => {
+		if (e.key === "Enter") handle();
+	};
+
 	return (
 		<div
 			style={{
@@ -42,6 +71,9 @@ export default function AddEntry() {
 					</span>
 					<input
 						type="number"
+						value={balance}
+						onChange={(e) => setBalance(e.target.value)}
+						onKeyDown={handleKey}
 						placeholder="0.00"
 						style={{
 							width: "100%",
@@ -59,6 +91,8 @@ export default function AddEntry() {
 					/>
 				</div>
 				<button
+					onClick={handle}
+					disabled={loading}
 					style={{
 						padding: "10px 22px",
 						background: "#fff",
@@ -67,33 +101,36 @@ export default function AddEntry() {
 						borderRadius: 8,
 						fontWeight: 700,
 						fontSize: 14,
-						cursor: "pointer",
+						cursor: loading ? "not-allowed" : "pointer",
 						whiteSpace: "nowrap",
 						display: "flex",
 						alignItems: "center",
 						gap: 6,
 						boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
 						fontFamily: "DM Sans, sans-serif",
+						opacity: loading ? 0.6 : 1,
 					}}
 				>
-					➕ Add
+					➕ {loading ? "Adding..." : "Add"}
 				</button>
 			</div>
 
-			<div
-				style={{
-					marginTop: 12,
-					padding: "8px 14px",
-					borderRadius: 8,
-					fontSize: 13,
-					fontWeight: 500,
-					background: "rgba(16,185,129,0.25)",
-					border: "1px solid rgba(16,185,129,0.5)",
-					color: "#fff",
-				}}
-			>
-				+$250.00 added to this month's salary!
-			</div>
+			{msg && (
+				<div
+					style={{
+						marginTop: 12,
+						padding: "8px 14px",
+						borderRadius: 8,
+						fontSize: 13,
+						fontWeight: 500,
+						background: msg.type === "success" ? "rgba(16,185,129,0.25)" : msg.type === "error" ? "rgba(239,68,68,0.25)" : "rgba(255,255,255,0.15)",
+						border: `1px solid ${msg.type === "success" ? "rgba(16,185,129,0.5)" : msg.type === "error" ? "rgba(239,68,68,0.5)" : "rgba(255,255,255,0.3)"}`,
+						color: "#fff",
+					}}
+				>
+					{msg.text}
+				</div>
+			)}
 		</div>
 	);
 }
