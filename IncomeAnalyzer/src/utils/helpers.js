@@ -43,12 +43,14 @@ export function getMonthlyStats(entries) {
 
 export function createEntry(entries, balance) {
 	const now = new Date();
-	const profit = calcDailyProfit(entries, balance);
+	// Ensure balance is a valid number
+	const validBalance = typeof balance === "number" && !isNaN(balance) ? balance : 0;
+	const profit = calcDailyProfit(entries, validBalance);
 	return {
 		id: Date.now().toString(),
 		date: now.toLocaleDateString("en-US", { day: "2-digit", month: "short", year: "numeric" }),
 		timestamp: now.toISOString(),
-		balance,
+		balance: validBalance,
 		dailyProfit: profit,
 		month: now.getMonth() + 1,
 		year: now.getFullYear(),
