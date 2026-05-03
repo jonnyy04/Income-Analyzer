@@ -4,18 +4,15 @@ import Sidebar from "./components/Sidebar";
 import DashboardPage from "./pages/DashboardPage";
 import StatisticsPage from "./pages/StatisticsPage";
 import { createEntry } from "./utils/helpers";
+import { useEntries } from "./hooks/useEntries";
 
 function App() {
-	const [entries, setEntries] = useState([]);
+	const { entries, addEntry, deleteEntry } = useEntries();
 	const [page, setPage] = useState("dashboard");
 
 	function handleAddEntry(balance) {
 		const newEntry = createEntry(entries, parseFloat(balance));
-		setEntries([...entries, newEntry]);
-	}
-
-	function handleDeleteEntry(id) {
-		setEntries(entries.filter((e) => e.id !== id));
+		addEntry(newEntry);
 	}
 
 	return (
@@ -24,7 +21,7 @@ function App() {
 
 			<main style={{ flex: 1, padding: "2rem", maxWidth: 900, overflowX: "hidden" }}>
 				{page === "dashboard" && <DashboardPage entries={entries} onAdd={handleAddEntry} />}
-				{page === "statistics" && <StatisticsPage entries={entries} onDelete={handleDeleteEntry} />}
+				{page === "statistics" && <StatisticsPage entries={entries} onDelete={deleteEntry} />}
 			</main>
 		</div>
 	);
