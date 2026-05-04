@@ -3,9 +3,11 @@ import AddEntry from "../components/AddEntry";
 import StatCard from "../components/StatCard";
 import { MONTHS, fmt } from "../utils/helpers";
 import { seedSampleData } from "../utils/sampleData";
+import { downloadEntriesAsJSON } from "../utils/downloadData";
 
 export default function DashboardPage({ entries, onAdd }) {
 	const [sampleMsg, setSampleMsg] = useState(null);
+	const [downloadMsg, setDownloadMsg] = useState(null);
 	const now = new Date();
 	const curMonth = now.getMonth() + 1;
 	const curYear = now.getFullYear();
@@ -38,36 +40,79 @@ export default function DashboardPage({ entries, onAdd }) {
 			}, 2000);
 		}
 	};
-
+	const handleDownloadData = () => {
+		const result = downloadEntriesAsJSON();
+		setDownloadMsg(result);
+		setTimeout(() => setDownloadMsg(null), 4000);
+	};
 	return (
 		<div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
 			{/* Header */}
-			<div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "1rem" }}>
+			<div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "1rem", flexWrap: "wrap" }}>
 				<div>
 					<div style={{ fontSize: 24, fontWeight: 700, letterSpacing: "-0.02em", marginBottom: 4, color: "var(--color-text)" }}>Dashboard</div>
 					<div style={{ fontSize: 13, color: "var(--color-text2)" }}>{now.toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</div>
 				</div>
-				<button
-					onClick={handleLoadSample}
+				<div style={{ display: "flex", gap: 10, flexWrap: "wrap", justifyContent: "flex-end" }}>
+					<button
+						onClick={handleLoadSample}
+						style={{
+							padding: "8px 14px",
+							background: "var(--color-accent)",
+							color: "white",
+							border: "none",
+							borderRadius: 8,
+							fontSize: 13,
+							fontWeight: 600,
+							cursor: "pointer",
+							whiteSpace: "nowrap",
+							transition: "all 0.2s",
+							boxShadow: "0 2px 8px rgba(37,99,235,0.2)",
+						}}
+						onMouseOver={(e) => (e.target.style.opacity = "0.85")}
+						onMouseOut={(e) => (e.target.style.opacity = "1")}
+					>
+						📊 Load Sample Data
+					</button>
+					<button
+						onClick={handleDownloadData}
+						style={{
+							padding: "8px 14px",
+							background: "var(--color-green)",
+							color: "white",
+							border: "none",
+							borderRadius: 8,
+							fontSize: 13,
+							fontWeight: 600,
+							cursor: "pointer",
+							whiteSpace: "nowrap",
+							transition: "all 0.2s",
+							boxShadow: "0 2px 8px rgba(16,185,129,0.2)",
+						}}
+						onMouseOver={(e) => (e.target.style.opacity = "0.85")}
+						onMouseOut={(e) => (e.target.style.opacity = "1")}
+					>
+						⬇️ Download Data
+					</button>
+				</div>
+			</div>
+
+			{/* Download message */}
+			{downloadMsg && (
+				<div
 					style={{
-						padding: "8px 14px",
-						background: "var(--color-accent)",
-						color: "white",
-						border: "none",
+						padding: "12px 14px",
 						borderRadius: 8,
 						fontSize: 13,
-						fontWeight: 600,
-						cursor: "pointer",
-						whiteSpace: "nowrap",
-						transition: "all 0.2s",
-						boxShadow: "0 2px 8px rgba(37,99,235,0.2)",
+						fontWeight: 500,
+						background: downloadMsg.success ? "rgba(16,185,129,0.1)" : "rgba(239,68,68,0.1)",
+						border: `1px solid ${downloadMsg.success ? "rgba(16,185,129,0.3)" : "rgba(239,68,68,0.3)"}`,
+						color: downloadMsg.success ? "var(--color-green)" : "var(--color-red)",
 					}}
-					onMouseOver={(e) => (e.target.style.opacity = "0.85")}
-					onMouseOut={(e) => (e.target.style.opacity = "1")}
 				>
-					📊 Load Sample Data
-				</button>
-			</div>
+					{downloadMsg.success ? "✓" : "✕"} {downloadMsg.message}
+				</div>
+			)}
 
 			{/* Sample data message */}
 			{sampleMsg && (

@@ -2398,6 +2398,51 @@ export const SAMPLE_DATA =
         "dailyProfit": 1178.9599999999991,
         "month": 4,
         "year": 2026
+    },
+    {
+        "id": "1714406400000",
+        "date": "Apr 29, 2026",
+        "timestamp": "2026-04-29T12:00:00.000Z",
+        "balance": 39431,
+        "dailyProfit": 1000,
+        "month": 4,
+        "year": 2026
+    },
+    {
+        "id": "1714406400001",
+        "date": "Apr 29, 2026",
+        "timestamp": "2026-04-29T13:00:00.000Z",
+        "balance": 40431,
+        "dailyProfit": 1000,
+        "month": 4,
+        "year": 2026
+    },
+    {
+        "id": "1714579200000",
+        "date": "May 01, 2026",
+        "timestamp": "2026-05-01T10:00:00.000Z",
+        "balance": 19231,
+        "dailyProfit": 0,
+        "month": 5,
+        "year": 2026
+    },
+    {
+        "id": "1714579200001",
+        "date": "May 01, 2026",
+        "timestamp": "2026-05-01T15:00:00.000Z",
+        "balance": 20410,
+        "dailyProfit": 1179,
+        "month": 5,
+        "year": 2026
+    },
+    {
+        "id": "1714665600000",
+        "date": "May 02, 2026",
+        "timestamp": "2026-05-02T14:30:00.000Z",
+        "balance": 22056,
+        "dailyProfit": 1646,
+        "month": 5,
+        "year": 2026
     }
 ];
 
