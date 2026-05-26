@@ -16,7 +16,7 @@ export default function ChartTooltip({ active, payload, label }) {
 			<div style={{ fontWeight: 600, color: "var(--color-text)", marginBottom: 4 }}>{label}</div>
 			{payload.map((p, i) => (
 				<div key={i} style={{ color: p.color, fontFamily: "DM Mono, monospace", fontSize: 13 }}>
-					{p.name}: ${fmt(p.value)}
+					{p.name}: {fmt(p.value)}
 				</div>
 			))}
 		</div>

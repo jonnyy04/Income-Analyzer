@@ -72,7 +72,7 @@ export default function DashboardPage({ entries, onAdd }) {
 						onMouseOver={(e) => (e.target.style.opacity = "0.85")}
 						onMouseOut={(e) => (e.target.style.opacity = "1")}
 					>
-						📊 Load Sample Data
+						Load Sample Data
 					</button>
 					<button
 						onClick={handleDownloadData}
@@ -92,7 +92,7 @@ export default function DashboardPage({ entries, onAdd }) {
 						onMouseOver={(e) => (e.target.style.opacity = "0.85")}
 						onMouseOut={(e) => (e.target.style.opacity = "1")}
 					>
-						⬇️ Download Data
+						Download Data
 					</button>
 				</div>
 			</div>
@@ -136,9 +136,9 @@ export default function DashboardPage({ entries, onAdd }) {
 
 			{/* Stat cards */}
 			<div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "1rem" }}>
-				<StatCard label="Monthly Salary" value={`$${fmt(monthlySalary)}`} sub={`${MONTHS[curMonth - 1]} ${curYear}`} color="blue" icon="award" />
-				<StatCard label="Current Balance" value={`$${fmt(lastBalance)}`} sub="Last recorded" color="green" icon="wallet" />
-				<StatCard label="Daily Average" value={`$${fmt(avgDaily)}`} sub="This month" color="purple" icon="trend" />
+				<StatCard label="Monthly Salary" value={fmt(monthlySalary)} sub={`${MONTHS[curMonth - 1]} ${curYear}`} color="blue" icon="award" />
+				<StatCard label="Current Balance" value={fmt(lastBalance)} sub="Last recorded" color="green" icon="wallet" />
+				<StatCard label="Daily Average" value={fmt(avgDaily)} sub="This month" color="purple" icon="trend" />
 				<StatCard label="Worked Days" value={workedDays} sub="Profitable days" color="amber" icon="calendar" />
 			</div>
 
@@ -163,12 +163,12 @@ export default function DashboardPage({ entries, onAdd }) {
 								<div>
 									<div style={{ fontSize: 13, fontWeight: 600, color: "var(--color-text)" }}>{e.date}</div>
 									<div className="mono" style={{ fontSize: 11, color: "var(--color-text3)" }}>
-										${fmt(e.balance)} balance
+										{fmt(e.balance)} balance
 									</div>
 								</div>
 								{e.dailyProfit > 0 ? (
 									<span className="mono" style={{ fontWeight: 700, fontSize: 13, color: "var(--color-green)" }}>
-										+${fmt(e.dailyProfit)}
+										+{fmt(e.dailyProfit)}
 									</span>
 								) : (
 									<span style={{ fontSize: 12, color: "var(--color-text3)" }}>No change</span>

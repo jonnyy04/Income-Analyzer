@@ -103,8 +103,8 @@ function TableTab({ entries, onDelete }) {
 									<td style={{ padding: "10px 16px", fontFamily: "DM Mono, monospace", fontSize: 12, color: "var(--color-text)" }}>{e.date}</td>
 									<td style={{ padding: "10px 16px", color: "var(--color-text2)" }}>{MONTHS[e.month - 1]}</td>
 									<td style={{ padding: "10px 16px", color: "var(--color-text2)" }}>{e.year}</td>
-									<td style={{ padding: "10px 16px", fontFamily: "DM Mono, monospace", fontWeight: 600, color: "var(--color-text)" }}>${fmt(e.balance)}</td>
-									<td style={{ padding: "10px 16px" }}>{e.dailyProfit > 0 ? <span className="badge-green">+${fmt(e.dailyProfit)}</span> : <span className="badge-neutral">—</span>}</td>
+									<td style={{ padding: "10px 16px", fontFamily: "DM Mono, monospace", fontWeight: 600, color: "var(--color-text)" }}>{fmt(e.balance)}</td>
+									<td style={{ padding: "10px 16px" }}>{e.dailyProfit > 0 ? <span className="badge-green">+{fmt(e.dailyProfit)}</span> : <span className="badge-neutral">—</span>}</td>
 									<td style={{ padding: "10px 16px" }}>
 										<button className="btn-danger" onClick={() => handleDeleteClick(e.id, e.date)}>
 											<Icon name="trash" size={13} /> Delete

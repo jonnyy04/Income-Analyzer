@@ -18,7 +18,7 @@ export default function AddEntry({ entries, onAdd }) {
 			const entry = createEntry(entries, val);
 			onAdd(entry);
 			setBalance("");
-			const text = entry.dailyProfit > 0 ? `+$${fmt(entry.dailyProfit)} added to this month's salary!` : "Entry saved — no increase detected.";
+			const text = entry.dailyProfit > 0 ? `+${fmt(entry.dailyProfit)} added to this month's salary!` : "Entry saved — no increase detected.";
 			setMsg({ type: entry.dailyProfit > 0 ? "success" : "neutral", text });
 			setLoading(false);
 			setTimeout(() => setMsg(null), 3500);
@@ -46,7 +46,7 @@ export default function AddEntry({ entries, onAdd }) {
 
 			<div style={{ display: "flex", gap: 10, alignItems: "center" }}>
 				<div style={{ position: "relative", flex: 1 }}>
-					<span style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", fontWeight: 700, fontSize: 16, opacity: 0.8 }}>$</span>
+					<span style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", fontWeight: 700, fontSize: 16, opacity: 0.8 }}></span>
 					<input
 						type="number"
 						value={balance}
